@@ -1,0 +1,43 @@
+//! create an express server and check if it's working
+
+import mongoose from "mongoose";
+import express from "express";
+import cors from "cors"; // cross origin resource sharing (browser blocks the request which comes from anywhere but localhost:8000)
+// 1) we are importing express module which we installed using npm i
+
+import userRoutes from "./routes/auth-route.js";
+
+// 2) call/invoke the function
+let app = express(); // object = {listen}
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
+
+app.use(express.urlencoded({ extended: true }));// this 
+app.use(express.json());
+
+
+// 4) connect to mongodb database using mongoose
+mongoose.connect("mongodb+srv://night-coding-marathon:12345@cluster0.amkvj8v.mongodb.net/")
+.then(() => console.log("MongoDB Connected"))
+.catch((err) => console.log(err));
+
+app.use("/api/auth", userRoutes); // http://localhost:9001/api/auth/signup
+
+// 3) assign a port number to our server
+app.listen(9001, () => {
+  console.log("Server Started.....");
+});
+// app.listen(PORT_NUMBER, callback)
+
+//! to check if the server is running, in cmd(git bash), goto backend folder and type "npx nodemon index.js"
+// open browser -> localhost:PORT_NUMBER and press enter
+
+// https://nodejs.org/en/ (/) =>  this is base url
+// https://nodejs.org/en/blog => /blog is one endpoint
+// https://nodejs.org/en/download
+
+// https://github.com/Sarvesh-1999/NIGHT-CODING-MARATHON
